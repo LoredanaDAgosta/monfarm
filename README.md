@@ -9,9 +9,9 @@ Le pagine sono statiche; il form di contatto usa una funzione serverless su Verc
 
 | Tool | Versione / uso |
 |------|----------------|
-| Astro | 4.x, `output: 'hybrid'` |
+| Astro | 5.x, `output: 'static'` (l'endpoint del form è `prerender = false`) |
 | Adapter | `@astrojs/vercel/serverless` |
-| Node.js | 20.x |
+| Node.js | 24.x (richiesto da Vercel) |
 | CSS | Vanilla CSS + Custom Properties |
 | Email | [Resend](https://resend.com) (form contatti) |
 | Deploy | Vercel |
@@ -93,7 +93,7 @@ monfarm-astro/
 │   └── styles/
 │       ├── global.css          ← variabili, layout, componenti
 │       └── typography.css      ← classi tipografiche
-├── astro.config.mjs            ← `site`, output hybrid, adapter Vercel
+├── astro.config.mjs            ← `site`, output static, adapter Vercel
 ├── vercel.json
 └── package.json
 ```
