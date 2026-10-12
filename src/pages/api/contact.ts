@@ -23,6 +23,14 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const resend = new Resend(import.meta.env.RESEND_API_KEY);
+  const recipient = import.meta.env.CONTACT_TO_EMAIL || 'info@monfarmexperience.it';
+
+  const escapeHtml = (value: string) =>
+    value
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
 
   const motivoLabel: Record<string, string> = {
     'struttura-location':    'Struttura / Location',
@@ -35,17 +43,17 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     await resend.emails.send({
       from:    'MonFarm Contatti <noreply@monfarmexperience.it>',
-      to:      'info@monfarmexperience.it',
+      to:      recipient,
       replyTo: email,
       subject: `Nuovo messaggio da ${nome} ${cognome} — ${motivoLabel[motivo] ?? motivo}`,
       html: `
         <h2>Nuovo messaggio dal form di contatto</h2>
-        <p><strong>Nome:</strong> ${nome} ${cognome}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Motivo:</strong> ${motivoLabel[motivo] ?? motivo}</p>
+        <p><strong>Nome:</strong> ${escapeHtml(nome)} ${escapeHtml(cognome)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Motivo:</strong> ${escapeHtml(motivoLabel[motivo] ?? motivo)}</p>
         <hr />
         <p><strong>Messaggio:</strong></p>
-        <p style="white-space: pre-line;">${messaggio}</p>
+        <p style="white-space: pre-line;">${escapeHtml(messaggio)}</p>
       `,
     });
 

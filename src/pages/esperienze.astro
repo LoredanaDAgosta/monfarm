@@ -8,6 +8,10 @@ import SectionDivider from '../components/SectionDivider.astro';
 
 const diarioHref = 'https://www.instagram.com/monfarmexperience?stkn=d2owbnBsMTdsOXY1';
 
+const whatsappHref = `https://wa.me/393209318074?text=${encodeURIComponent(
+  'Ciao Beatrice, vorrei maggiori informazioni sull’esperienza “RACCOLTO”.',
+)}`;
+
 const mapsHref = (place: string, city: string) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${place} ${city}`)}`;
 
@@ -67,8 +71,8 @@ const esperienze = [
     city: 'Trino (VC)',
     description:
       'Una mattina per rallentare, tornare al corpo e fare spazio all’essenziale. Tra movimento, creatività e convivialità, abbiamo raccolto ciò che ci nutre, ciò che resta e ciò che possiamo lasciare andare, accompagnati dai colori e dai ritmi dell’autunno.',
-    cta: 'Partecipa',
-    href: 'https://www.instagram.com/stories/highlights/18096060722533472/',
+    cta: 'Contattami su WhatsApp',
+    href: whatsappHref,
   },
 ];
 ---

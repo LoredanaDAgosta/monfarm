@@ -320,8 +320,8 @@ a:hover {
   text-align: center;
   width: 100%;
   font-weight: 700;
-  font-size: 2.6rem;
-  font-size: 18cqw;
+  font-size: 2rem;
+  font-size: min(13cqw, 2.6rem);
   line-height: 1;
 }
 
@@ -663,6 +663,14 @@ a:hover {
     --fs-title: 1.6rem;
     --fs-display: 1.6rem;
     --space-xl: 2.75rem;
+    --page-max-width: 720px;
+  }
+
+  .site-header,
+  main,
+  .site-footer {
+    width: min(calc(100% - 4rem), var(--page-max-width));
+    margin-inline: auto;
   }
 }
 
