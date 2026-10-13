@@ -288,6 +288,14 @@ a:hover {
   transform: translateY(0);
 }
 
+.btn:disabled,
+.btn:disabled:hover {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: none;
+  transform: none;
+}
+
 .btn--primary {
   background-color: var(--color-olive);
   color: var(--color-cream-bg);

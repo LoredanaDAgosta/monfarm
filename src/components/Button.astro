@@ -3,9 +3,10 @@ interface Props {
   href?: string;
   text: string;
   type?: 'submit' | 'button';
+  disabled?: boolean;
 }
 
-const { href, text, type = 'submit' } = Astro.props;
+const { href, text, type = 'submit', disabled = false } = Astro.props;
 const isExternal = href?.startsWith('http');
 ---
 
@@ -17,5 +18,5 @@ const isExternal = href?.startsWith('http');
     rel={isExternal ? 'noopener noreferrer' : undefined}
   >{text}</a>
 ) : (
-  <button type={type} class="btn btn--primary text-cta">{text}</button>
+  <button type={type} class="btn btn--primary text-cta" disabled={disabled}>{text}</button>
 )}

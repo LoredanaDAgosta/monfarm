@@ -3,7 +3,28 @@ import { Resend } from 'resend';
 
 export const prerender = false;
 
+const ALLOWED_HOSTS = new Set([
+  'monfarmexperience.it',
+  'www.monfarmexperience.it',
+  'localhost',
+]);
+const VERCEL_PROJECT_HOST = /^monfarm[a-z0-9-]*\.vercel\.app$/;
+
+const isAllowedOrigin = (origin: string | null) => {
+  if (!origin) return false;
+  try {
+    const { hostname } = new URL(origin);
+    return ALLOWED_HOSTS.has(hostname) || VERCEL_PROJECT_HOST.test(hostname);
+  } catch {
+    return false;
+  }
+};
+
 export const POST: APIRoute = async ({ request }) => {
+  if (!isAllowedOrigin(request.headers.get('origin'))) {
+    return new Response(JSON.stringify({ error: 'Origine non consentita.' }), { status: 403 });
+  }
+
   const data = await request.formData();
 
   const nome     = data.get('nome')?.toString().trim() ?? '';
@@ -18,7 +39,9 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({ ok: true }), { status: 200 });
   }
 
-  if (!nome || !email || !messaggio) {
+  const privacy = data.get('privacy')?.toString() ?? '';
+
+  if (!nome || !cognome || !email || !motivo || !messaggio || !privacy) {
     return new Response(JSON.stringify({ error: 'Campi obbligatori mancanti.' }), { status: 400 });
   }
 

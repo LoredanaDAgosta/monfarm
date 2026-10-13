@@ -119,7 +119,10 @@ const selectPlaceholder = 'Cosa ti porta qui?';
   </label>
 
   <div class="stack stack--center">
-    <Button text="Invia messaggio" type="submit" />
+    <Button text="Invia messaggio" type="submit" disabled />
+    <p class="contact-form__hint text-small" data-form-hint>
+      Compila tutti i campi e accetta la privacy policy per inviare il messaggio.
+    </p>
   </div>
 
   <p class="contact-form__success" role="alert" hidden>
@@ -134,6 +137,16 @@ const selectPlaceholder = 'Cosa ti porta qui?';
 .contact-form {
   max-width: 520px;
   margin-inline: auto;
+}
+
+.contact-form__hint {
+  text-align: center;
+  color: var(--color-text-light);
+  font-size: 0.85rem;
+}
+
+.contact-form__hint[hidden] {
+  display: none;
 }
 
 .contact-form__success {
@@ -171,6 +184,7 @@ const selectPlaceholder = 'Cosa ti porta qui?';
 
     function resetValue() {
       hiddenInput.value = '';
+      hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
       valueEl.textContent = placeholder;
       valueEl.classList.add('is-placeholder');
       options.forEach((item) => {
@@ -184,6 +198,7 @@ const selectPlaceholder = 'Cosa ti porta qui?';
       const label = option.textContent?.trim() ?? '';
 
       hiddenInput.value = value;
+      hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
       valueEl.textContent = label;
       valueEl.classList.remove('is-placeholder');
 
@@ -236,11 +251,41 @@ const selectPlaceholder = 'Cosa ti porta qui?';
 
   const form = document.getElementById('contact-form') as HTMLFormElement;
   if (form) {
+    const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const hint = form.querySelector('[data-form-hint]') as HTMLElement;
+    const requiredFields = Array.from(
+      form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input[required], textarea[required]'),
+    );
+
+    // Il pulsante si abilita solo con tutti i campi compilati (motivo compreso,
+    // anche "Altro"), email valida e privacy policy accettata.
+    function isFormComplete() {
+      return requiredFields.every((field) => {
+        if (field instanceof HTMLInputElement && field.type === 'checkbox') return field.checked;
+        if (field instanceof HTMLInputElement && field.type === 'email') {
+          return field.value.trim() !== '' && field.validity.valid;
+        }
+        return field.value.trim() !== '';
+      });
+    }
+
+    function updateSubmitState() {
+      const complete = isFormComplete();
+      submitBtn.disabled = !complete;
+      hint.hidden = complete;
+    }
+
+    form.addEventListener('input', updateSubmitState);
+    form.addEventListener('change', updateSubmitState);
+    form.addEventListener('reset', () => setTimeout(updateSubmitState));
+    updateSubmitState();
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (!isFormComplete()) return;
       const successMsg = form.querySelector('.contact-form__success') as HTMLElement;
       const errorMsg = form.querySelector('.contact-form__error') as HTMLElement;
-      const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      const btn = submitBtn;
 
       btn.disabled = true;
       btn.textContent = 'Invio in corso…';
@@ -259,6 +304,8 @@ const selectPlaceholder = 'Cosa ti porta qui?';
           });
           successMsg.hidden = false;
           errorMsg.hidden = true;
+          btn.textContent = 'Invia messaggio';
+          updateSubmitState();
         } else {
           throw new Error(json.error ?? 'Server error');
         }
