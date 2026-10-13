@@ -144,6 +144,14 @@ const navItems = [
 }
 .mobile-menu[hidden] { display: none; }
 
+/* Tablet e PC: il menu resta nella stessa colonna del resto del sito */
+@media (min-width: 768px) {
+  .mobile-menu {
+    width: min(calc(100% - 4rem), var(--page-max-width));
+    margin-inline: auto;
+  }
+}
+
 .mobile-menu__inner {
   display: flex;
   flex-direction: column;
