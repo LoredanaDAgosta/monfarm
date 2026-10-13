@@ -149,6 +149,16 @@ Per far funzionare l'invio:
 
 ---
 
+## SEO e statistiche
+
+- **Sitemap:** generata in build da `@astrojs/sitemap` (`/sitemap-index.xml`); `public/robots.txt` la indica.
+- **Icone e immagine social:** `public/favicon.*`, `apple-touch-icon.png`, `icon-*.png` e
+  `public/images/og-image.jpg` (1200×630) derivano dal logo; il layout usa URL assoluti.
+- **Statistiche:** Vercel Web Analytics (senza cookie), attivato con `webAnalytics` in
+  `astro.config.mjs` e abilitato dalla scheda *Analytics* del progetto su Vercel.
+
+---
+
 ## Note
 
 - I link ai social e a Instagram si aprono in `target="_blank"` con `rel="noopener noreferrer"`.

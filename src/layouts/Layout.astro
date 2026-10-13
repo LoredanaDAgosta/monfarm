@@ -16,10 +16,11 @@ const {
   title,
   description = 'MonFarm Experience — Ritiri immersi nella natura del Monferrato. Pratiche dolci, comunità e trasformazione.',
   image = '/images/og-image.jpg',
-  canonicalURL = Astro.url.href,
+  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
 } = Astro.props;
 
 const fullTitle = title === 'Home' ? 'MonFarm Experience' : `${title} — MonFarm Experience`;
+const imageURL = new URL(image, Astro.site).href;
 ---
 
 <!doctype html>
@@ -32,19 +33,26 @@ const fullTitle = title === 'Home' ? 'MonFarm Experience' : `${title} — MonFar
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MonFarm Experience" />
+    <meta property="og:locale" content="it_IT" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={image} />
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={image} />
+    <meta name="twitter:image" content={imageURL} />
 
     <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/icon-192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

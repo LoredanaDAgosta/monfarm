@@ -12,6 +12,7 @@
     "node": "24.x"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
     "@astrojs/vercel": "^9.0.5",
     "astro": "^5.18.2",
     "resend": "^6.12.2"
