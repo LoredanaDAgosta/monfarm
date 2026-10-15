@@ -8,10 +8,6 @@ import SectionDivider from '../components/SectionDivider.astro';
 
 const diarioHref = 'https://www.instagram.com/monfarmexperience?stkn=d2owbnBsMTdsOXY1';
 
-const whatsappHref = `https://wa.me/393209318074?text=${encodeURIComponent(
-  'Ciao Beatrice, vorrei maggiori informazioni sull’esperienza “RACCOLTO”.',
-)}`;
-
 const mapsHref = (place: string, city: string) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${place} ${city}`)}`;
 
@@ -71,8 +67,8 @@ const esperienze = [
     city: 'Trino (VC)',
     description:
       'Una mattina per rallentare, tornare al corpo e fare spazio all’essenziale. Tra movimento, creatività e convivialità, abbiamo raccolto ciò che ci nutre, ciò che resta e ciò che possiamo lasciare andare, accompagnati dai colori e dai ritmi dell’autunno.',
-    cta: 'Contattami su WhatsApp',
-    href: whatsappHref,
+    image: '/images/esperienze/esperienze-5.jpeg',
+    imageAlt: "Borgo Ramezzana a Trino, sede dell'esperienza Raccolto",
   },
 ];
 ---
@@ -101,7 +97,7 @@ const esperienze = [
           </a>
         </p>
         <p class="text-body--thin">{exp.description}</p>
-        <Button href={exp.href} text={exp.cta} />
+        {exp.cta && exp.href && <Button href={exp.href} text={exp.cta} />}
       </Section>
       {i < esperienze.length - 1 && <SectionDivider bar={false} />}
     </>

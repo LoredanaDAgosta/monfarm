@@ -33,3 +33,6 @@ pnpm-debug.log*
 .vercel
 .claude/
 _design-export/
+
+# File di stampa (adesivi), non fanno parte del sito
+stickers/
